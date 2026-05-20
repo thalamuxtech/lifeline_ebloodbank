@@ -28,7 +28,7 @@ export function Footer() {
           <h4 className="text-sm font-semibold mb-3">{t.footer.reach}</h4>
           <ul className="space-y-2 text-sm text-muted-fg">
             <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> {t.footer.tollFree} 0800-LIFELINE</li>
-            <li className="flex items-center gap-2"><MessageCircle className="h-4 w-4" /> {t.footer.sms} "BLOOD" → 5050</li>
+            <li className="flex items-center gap-2"><MessageCircle className="h-4 w-4" /> {t.footer.sms} &ldquo;BLOOD&rdquo; → 5050</li>
             <li className="flex items-center gap-2"><Globe className="h-4 w-4" /> {t.footer.ussd} *565*5050#</li>
           </ul>
         </div>

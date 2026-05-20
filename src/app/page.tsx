@@ -280,7 +280,7 @@ export default function HomePage() {
             <div key={i} className="w-[360px] shrink-0">
               <Card className="p-5">
                 <div className="flex gap-1 mb-3">{[...Array(5)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />)}</div>
-                <p className="text-sm leading-relaxed">"{tt.q}"</p>
+                <p className="text-sm leading-relaxed">&ldquo;{tt.q}&rdquo;</p>
                 <div className="text-xs text-muted-fg mt-3">— {tt.a}</div>
               </Card>
             </div>
