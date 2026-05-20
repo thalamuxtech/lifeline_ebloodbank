@@ -1,0 +1,60 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+    function role() { return isSignedIn() ? request.auth.token.role : null; }
+    function isAdmin() { return role() == 'admin'; }
+    function isHospital() { return role() == 'hospital'; }
+    function isDonor() { return role() == 'donor'; }
+    function isSelf(uid) { return isSignedIn() && request.auth.uid == uid; }
+
+    // User profiles. A user can read/update their own profile. Admins can read all.
+    match /users/{uid} {
+      allow read: if isSelf(uid) || isAdmin();
+      allow create: if isSelf(uid)
+                    && request.resource.data.role in ['donor','hospital'];
+      allow update: if (isSelf(uid)
+                       && request.resource.data.role == resource.data.role)
+                    || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Donor records. Donors can create+read their own. Hospitals can read for matching. Admins manage all.
+    match /donors/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn()
+                    && request.resource.data.uid == request.auth.uid;
+      allow update: if isAdmin() || (resource.data.uid == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+
+    // Blood requests. Hospitals create. Donors read open requests. Admins manage all.
+    match /requests/{id} {
+      allow read: if isSignedIn();
+      allow create: if isHospital() || isAdmin();
+      allow update: if isAdmin()
+                    || (isHospital() && resource.data.createdBy == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+
+    // Inventory. Hospitals + admins only.
+    match /inventory/{id} {
+      allow read: if isHospital() || isAdmin();
+      allow write: if isHospital() || isAdmin();
+    }
+
+    // Drives. Public-readable; admins write.
+    match /drives/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Site settings doc(s). Public read; admin write.
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

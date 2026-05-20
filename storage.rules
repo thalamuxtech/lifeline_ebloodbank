@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() { return request.auth != null; }
+    function role() { return isSignedIn() ? request.auth.token.role : null; }
+    function isAdmin() { return role() == 'admin'; }
+
+    // Public marketing assets: read open, write admin only.
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Per-user uploads (profile pictures, donor IDs).
+    match /users/{uid}/{allPaths=**} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isSignedIn() && request.auth.uid == uid
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*|application/pdf');
+    }
+
+    // Hospital uploads (lab reports, ISBT scans).
+    match /hospitals/{hospital}/{allPaths=**} {
+      allow read: if role() == 'hospital' || isAdmin();
+      allow write: if role() == 'hospital' || isAdmin();
+    }
+  }
+}
