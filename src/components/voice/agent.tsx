@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Mic, X, Send, Sparkles, Loader2 } from "lucide-react";
+import { Mic, X, Send, MessageCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/store/locale";
 import { agentReply } from "@/lib/data";
@@ -70,7 +70,7 @@ export function VoiceAgent() {
         aria-label={t.voice.open}
       >
         <span className="absolute inset-0 rounded-full bg-primary-700/40 animate-pulseRing" />
-        <Sparkles className="h-6 w-6 relative" />
+        <MessageCircle className="h-6 w-6 relative" />
       </motion.button>
 
       <AnimatePresence>
