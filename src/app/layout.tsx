@@ -3,7 +3,6 @@ import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Dock } from "@/components/layout/dock";
 import { VoiceAgent } from "@/components/voice/agent";
 import { AuthProvider } from "@/components/providers/auth-provider";
 
@@ -30,9 +29,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AuthProvider>
           <Header />
-          <main className="pb-28">{children}</main>
+          <main>{children}</main>
           <Footer />
-          <Dock />
           <VoiceAgent />
         </AuthProvider>
       </body>

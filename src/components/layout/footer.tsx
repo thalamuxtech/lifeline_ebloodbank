@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Heart, Phone, MessageCircle, Globe } from "lucide-react";
+import { Heart, Phone, MessageCircle, Globe, Shield } from "lucide-react";
 import { useLocale } from "@/store/locale";
 
 export function Footer() {
@@ -35,15 +35,21 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold mb-3">{t.footer.standards}</h4>
           <ul className="space-y-2 text-sm text-muted-fg">
-            <li>WHO Blood Safety</li>
-            <li>NBSA Act 2021</li>
-            <li>ISBT-128</li>
-            <li>NDPR</li>
+            <li><Link href="/standards/who" className="hover:text-fg">WHO Blood Safety</Link></li>
+            <li><Link href="/standards/nbsa" className="hover:text-fg">NBSA Act 2021</Link></li>
+            <li><Link href="/standards/isbt-128" className="hover:text-fg">ISBT-128</Link></li>
+            <li><Link href="/standards/ndpr" className="hover:text-fg">NDPR</Link></li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-border py-6 text-center text-xs text-muted-fg">
-        © {new Date().getFullYear()} Hale Youth Foundation — LifeLine. {t.footer.rights}
+      <div className="border-t border-border py-6 px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-fg">
+        <span>© {new Date().getFullYear()} Hale Youth Foundation — LifeLine. {t.footer.rights}</span>
+        <Link
+          href="/admin"
+          className="inline-flex items-center gap-1.5 text-muted-fg hover:text-primary-700 transition-colors"
+        >
+          <Shield className="h-3.5 w-3.5" /> {t.dock?.admin ?? "Admin"}
+        </Link>
       </div>
     </footer>
   );

@@ -71,3 +71,75 @@ body {
 
 /* Focus rings */
 :focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 2px; border-radius: 6px; }
+
+/* Standards content typography (no @tailwindcss/typography dep) */
+.standards-prose h1 {
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.standards-prose h2 {
+  font-family: var(--font-display), serif;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-top: 2.75rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.standards-prose h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.standards-prose p,
+.standards-prose li {
+  color: hsl(var(--muted-fg));
+  line-height: 1.7;
+}
+.standards-prose p { margin: 0.85rem 0; }
+.standards-prose .lead { color: hsl(var(--fg)); }
+.standards-prose strong { color: hsl(var(--fg)); font-weight: 600; }
+.standards-prose ul, .standards-prose ol { padding-left: 1.25rem; margin: 0.85rem 0; }
+.standards-prose ul { list-style: disc; }
+.standards-prose ol { list-style: decimal; }
+.standards-prose li { margin: 0.4rem 0; }
+.standards-prose li::marker { color: hsl(var(--primary)); }
+.standards-prose a { color: hsl(var(--primary)); text-decoration: none; }
+.standards-prose a:hover { text-decoration: underline; }
+.standards-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  background: hsl(var(--muted));
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+}
+.standards-prose pre {
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.standards-prose pre code { background: transparent; padding: 0; font-size: inherit; }
+.standards-prose table {
+  width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.standards-prose th, .standards-prose td {
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+.standards-prose th { font-weight: 600; color: hsl(var(--fg)); background: hsl(var(--muted) / 0.4); }
+.standards-prose td { color: hsl(var(--muted-fg)); }
+.standards-prose em { font-style: italic; }
