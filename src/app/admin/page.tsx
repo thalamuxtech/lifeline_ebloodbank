@@ -6,12 +6,13 @@ import { Users, Droplet, Siren, CalendarHeart, TrendingUp, Heart } from "lucide-
 import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Counter } from "@/components/ui/counter";
+import { getStats } from "@/lib/data";
 
 const COLORS = ["#B91C1C", "#DC2626", "#EF4444", "#F87171", "#FCA5A5", "#FECACA", "#FEE2E2", "#FFF1F2"];
 
 export default function AdminOverview() {
   const [stats, setStats] = useState<any>(null);
-  useEffect(() => { fetch("/api/stats").then((r) => r.json()).then(setStats); }, []);
+  useEffect(() => { getStats().then(setStats).catch(() => setStats(null)); }, []);
 
   if (!stats) return <div className="p-10 text-muted-fg">Loading…</div>;
   const { totals, byGroup, last30 } = stats;

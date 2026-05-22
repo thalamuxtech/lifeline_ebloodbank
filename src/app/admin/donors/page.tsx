@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { DataTable } from "@/components/admin/data-table";
 import { Badge } from "@/components/ui/badge";
 import { BLOOD_GROUPS } from "@/lib/utils";
+import { listDonors } from "@/lib/data";
 
 const CITIES = ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Kaduna", "Enugu", "Sokoto"];
 
 export default function AdminDonors() {
   const [rows, setRows] = useState<any[]>([]);
-  const refresh = () => fetch("/api/donors").then((r) => r.json()).then((d) => setRows(d.donors));
+  const refresh = () => listDonors().then(setRows).catch(() => setRows([]));
   useEffect(() => { refresh(); }, []);
 
   return (

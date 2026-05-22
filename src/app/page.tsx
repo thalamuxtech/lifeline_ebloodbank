@@ -16,6 +16,7 @@ import { Marquee } from "@/components/ui/marquee";
 import { AnimatedBlobs, GridBackdrop } from "@/components/ui/blobs";
 import { SplitText } from "@/components/ui/split-text";
 import { useLocale } from "@/store/locale";
+import { getSettings, getStats } from "@/lib/data";
 
 export default function HomePage() {
   const { t } = useLocale();
@@ -30,8 +31,8 @@ export default function HomePage() {
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {
-    fetch("/api/settings").then((r) => r.json()).then((d) => setSettings(d.settings));
-    fetch("/api/stats").then((r) => r.json()).then(setStats);
+    getSettings().then(setSettings).catch(() => setSettings(null));
+    getStats().then(setStats).catch(() => setStats(null));
   }, []);
 
   return (

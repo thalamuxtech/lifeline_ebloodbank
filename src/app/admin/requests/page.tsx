@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { DataTable } from "@/components/admin/data-table";
 import { Badge } from "@/components/ui/badge";
 import { BLOOD_GROUPS } from "@/lib/utils";
+import { listRequests } from "@/lib/data";
 
 const HOSPITALS = ["LUTH", "AKTH", "National Hospital", "UCH Ibadan", "UPTH", "ABUTH", "UNTH", "UDUTH"];
 const CITIES = ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Kaduna", "Enugu", "Sokoto"];
 
 export default function AdminRequests() {
   const [rows, setRows] = useState<any[]>([]);
-  const refresh = () => fetch("/api/requests").then((r) => r.json()).then((d) => setRows(d.requests));
+  const refresh = () => listRequests().then(setRows).catch(() => setRows([]));
   useEffect(() => { refresh(); }, []);
 
   return (

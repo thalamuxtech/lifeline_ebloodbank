@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { DataTable } from "@/components/admin/data-table";
+import { listDrives } from "@/lib/data";
 
 const HOSPITALS = ["LUTH", "AKTH", "National Hospital", "UCH Ibadan", "UPTH", "ABUTH", "UNTH", "UDUTH"];
 const CITIES = ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Kaduna", "Enugu", "Sokoto"];
 
 export default function AdminDrives() {
   const [rows, setRows] = useState<any[]>([]);
-  const refresh = () => fetch("/api/drives").then((r) => r.json()).then((d) => setRows(d.drives));
+  const refresh = () => listDrives().then(setRows).catch(() => setRows([]));
   useEffect(() => { refresh(); }, []);
 
   return (

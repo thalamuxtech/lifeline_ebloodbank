@@ -18,8 +18,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://lifeline.ng"),
 };
 
-export const dynamic = "force-dynamic";
-
 export const viewport: Viewport = {
   themeColor: "#B91C1C",
   width: "device-width",

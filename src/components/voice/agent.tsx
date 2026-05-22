@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Mic, X, Send, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/store/locale";
+import { agentReply } from "@/lib/data";
 
 type Msg = { role: "user" | "agent"; text: string };
 
@@ -26,13 +27,8 @@ export function VoiceAgent() {
     setInput("");
     setBusy(true);
     try {
-      const res = await fetch("/api/agent", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text, locale }),
-      });
-      const data = await res.json();
-      setMsgs((m) => [...m, { role: "agent", text: data.reply }]);
+      const reply = await agentReply(text, locale);
+      setMsgs((m) => [...m, { role: "agent", text: reply }]);
     } catch {
       setMsgs((m) => [...m, { role: "agent", text: t.voice.networkError }]);
     } finally {

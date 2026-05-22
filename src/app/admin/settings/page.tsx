@@ -4,23 +4,25 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Save, RefreshCw, Megaphone } from "lucide-react";
 import { toast, Toaster } from "sonner";
+import { getSettings, updateSettings } from "@/lib/data";
 
 export default function AdminSettings() {
   const [s, setS] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { fetch("/api/settings").then((r) => r.json()).then((d) => setS(d.settings)); }, []);
+  useEffect(() => { getSettings().then(setS).catch(() => setS(null)); }, []);
 
   async function save() {
     setSaving(true);
-    const res = await fetch("/api/settings", {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(s),
-    });
-    setSaving(false);
-    if (res.ok) toast.success("Settings saved");
-    else toast.error("Failed");
+    try {
+      const updated = await updateSettings(s);
+      setS(updated);
+      toast.success("Settings saved");
+    } catch {
+      toast.error("Failed");
+    } finally {
+      setSaving(false);
+    }
   }
 
   if (!s) return <div className="p-10 text-muted-fg">Loading…</div>;

@@ -5,22 +5,23 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Siren, Droplet, CalendarHeart, Activity as ActIcon } from "lucide-react";
 import { formatRelative } from "@/lib/utils";
+import { listDonors, listRequests, listInventory, listDrives } from "@/lib/data";
 
 export default function AdminActivity() {
   const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/donors").then((r) => r.json()),
-      fetch("/api/requests").then((r) => r.json()),
-      fetch("/api/inventory").then((r) => r.json()),
-      fetch("/api/drives").then((r) => r.json()),
-    ]).then(([d, r, i, dr]) => {
+      listDonors().catch(() => []),
+      listRequests().catch(() => []),
+      listInventory().catch(() => []),
+      listDrives().catch(() => []),
+    ]).then(([donors, requests, inventory, drives]) => {
       const stream = [
-        ...d.donors.slice(0, 20).map((x: any) => ({ at: x.createdAt, type: "donor", text: `${x.name} registered (${x.bloodGroup}, ${x.city})`, icon: Heart, tone: "primary" })),
-        ...r.requests.slice(0, 20).map((x: any) => ({ at: x.createdAt, type: "request", text: `Request ${x.id} — ${x.units}× ${x.bloodGroup} at ${x.hospital}`, icon: Siren, tone: "danger" })),
-        ...i.inventory.slice(0, 15).map((x: any) => ({ at: x.collectedAt, type: "unit", text: `Unit ${x.isbtBarcode} (${x.bloodGroup}) collected → ${x.hospital}`, icon: Droplet, tone: "warning" })),
-        ...dr.drives.map((x: any) => ({ at: x.scheduledAt, type: "drive", text: `Drive: ${x.title} in ${x.city}`, icon: CalendarHeart, tone: "success" })),
+        ...donors.slice(0, 20).map((x: any) => ({ at: x.createdAt, type: "donor", text: `${x.name} registered (${x.bloodGroup}, ${x.city})`, icon: Heart, tone: "primary" })),
+        ...requests.slice(0, 20).map((x: any) => ({ at: x.createdAt, type: "request", text: `Request ${x.id} — ${x.units}× ${x.bloodGroup} at ${x.hospital}`, icon: Siren, tone: "danger" })),
+        ...inventory.slice(0, 15).map((x: any) => ({ at: x.collectedAt, type: "unit", text: `Unit ${x.isbtBarcode} (${x.bloodGroup}) collected → ${x.hospital}`, icon: Droplet, tone: "warning" })),
+        ...drives.map((x: any) => ({ at: x.scheduledAt, type: "drive", text: `Drive: ${x.title} in ${x.city}`, icon: CalendarHeart, tone: "success" })),
       ].sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
       setItems(stream);
     });

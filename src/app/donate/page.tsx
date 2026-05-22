@@ -7,6 +7,8 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BLOOD_GROUPS, type BloodGroup } from "@/lib/utils";
 import { useLocale } from "@/store/locale";
+import { createDonor } from "@/lib/data";
+import { toast } from "sonner";
 
 const cities = ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Kaduna", "Enugu", "Sokoto"];
 
@@ -19,10 +21,16 @@ export default function DonatePage() {
 
   async function submit() {
     setSubmitting(true);
-    const res = await fetch("/api/donors", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(form) });
-    const data = await res.json();
-    setSubmitting(false);
-    if (data.donor) { setDonorId(data.donor.id); setStep(4); }
+    try {
+      const donor = await createDonor(form);
+      setDonorId(donor.id);
+      setStep(4);
+    } catch (e) {
+      toast.error("Could not register donor. Please try again.");
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const stepLabels = [t.donate.steps.identity, t.donate.steps.blood, t.donate.steps.confirm];

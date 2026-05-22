@@ -7,6 +7,8 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BLOOD_GROUPS, type BloodGroup } from "@/lib/utils";
 import { useLocale } from "@/store/locale";
+import { createRequest } from "@/lib/data";
+import { toast } from "sonner";
 
 const hospitals = ["LUTH", "AKTH", "National Hospital", "UCH Ibadan", "UPTH", "ABUTH", "UNTH", "UDUTH"];
 const cities = ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Kaduna", "Enugu", "Sokoto"];
@@ -20,10 +22,16 @@ export default function RequestPage() {
 
   async function submit() {
     setSubmitting(true);
-    const res = await fetch("/api/requests", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(form) });
-    const data = await res.json();
-    setSubmitting(false);
-    if (data.request) { setResult(data); setStep(4); }
+    try {
+      const data = await createRequest({ ...form, urgency: form.urgency as 1 | 2 | 3 | 4 | 5 });
+      setResult(data);
+      setStep(4);
+    } catch (e) {
+      toast.error("Could not submit request. Please try again.");
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (

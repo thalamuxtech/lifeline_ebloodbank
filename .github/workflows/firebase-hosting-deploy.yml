@@ -18,8 +18,6 @@ jobs:
       NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
       NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
       NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
-      FIREBASE_ADMIN_SERVICE_ACCOUNT_B64: ${{ secrets.FIREBASE_ADMIN_SERVICE_ACCOUNT_B64 }}
-      FIREBASE_CLI_EXPERIMENTS: webframeworks
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build static site
         run: pnpm build
 
       - name: Deploy to Firebase Hosting

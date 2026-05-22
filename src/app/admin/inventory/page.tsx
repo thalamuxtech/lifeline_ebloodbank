@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { DataTable } from "@/components/admin/data-table";
 import { Badge } from "@/components/ui/badge";
 import { BLOOD_GROUPS } from "@/lib/utils";
+import { listInventory } from "@/lib/data";
 
 const HOSPITALS = ["LUTH", "AKTH", "National Hospital", "UCH Ibadan", "UPTH", "ABUTH", "UNTH", "UDUTH"];
 
 export default function AdminInventory() {
   const [rows, setRows] = useState<any[]>([]);
-  const refresh = () => fetch("/api/inventory").then((r) => r.json()).then((d) => setRows(d.inventory));
+  const refresh = () => listInventory().then(setRows).catch(() => setRows([]));
   useEffect(() => { refresh(); }, []);
 
   return (

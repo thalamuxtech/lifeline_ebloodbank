@@ -6,6 +6,8 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { db } from "@/lib/firebase";
+import { collection, doc, setDoc, updateDoc, deleteDoc as fbDeleteDoc, type DocumentData } from "firebase/firestore";
 
 export type Column<T> = {
   key: keyof T | string;
@@ -46,32 +48,53 @@ export function DataTable<T extends { id: string }>({
 
   async function save() {
     const id = editing?.id;
-    const url = id ? `/api/${resource}/${id}` : `/api/${resource}`;
-    const method = id ? "PATCH" : "POST";
-    const res = await fetch(url, {
-      method,
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(draft),
-    });
-    if (res.ok) {
-      toast.success(id ? "Updated" : "Created");
+    try {
+      if (id) {
+        const { id: _drop, ...rest } = draft as { id?: string };
+        void _drop;
+        await updateDoc(doc(db, resource, id), rest as DocumentData);
+        toast.success("Updated");
+      } else {
+        const ref = doc(collection(db, resource));
+        const { id: _drop, ...rest } = draft as { id?: string };
+        void _drop;
+        // Default fields for collections that expect them
+        if (resource === "donors") {
+          (rest as any).donations ??= 0;
+          (rest as any).lastDonationAt ??= null;
+          (rest as any).createdAt ??= new Date().toISOString();
+        } else if (resource === "requests") {
+          (rest as any).status ??= "open";
+          (rest as any).createdAt ??= new Date().toISOString();
+          (rest as any).patientHash ??= `pt_${ref.id.slice(0, 8)}`;
+        } else if (resource === "inventory") {
+          (rest as any).collectedAt ??= new Date().toISOString();
+          (rest as any).expiresAt ??=
+            new Date(Date.now() + 42 * 86_400_000).toISOString();
+        } else if (resource === "drives") {
+          (rest as any).registered ??= 0;
+        }
+        await setDoc(ref, rest as DocumentData);
+        toast.success("Created");
+      }
       setEditing(null);
       setCreating(false);
       setDraft({});
       onChange();
-    } else {
-      const e = await res.json();
-      toast.error("Failed: " + JSON.stringify(e.error ?? e));
+    } catch (e: any) {
+      toast.error("Failed: " + (e?.message ?? "unknown error"));
     }
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this record?")) return;
-    const res = await fetch(`/api/${resource}/${id}`, { method: "DELETE" });
-    if (res.ok) {
+    try {
+      await fbDeleteDoc(doc(db, resource, id));
       toast.success("Deleted");
       onChange();
-    } else toast.error("Failed");
+    } catch {
+      toast.error("Failed");
+    }
   }
 
   function startEdit(row: T) {

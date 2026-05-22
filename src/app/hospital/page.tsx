@@ -6,6 +6,7 @@ import { Card, CardTitle, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BLOOD_GROUPS, formatRelative } from "@/lib/utils";
 import { useLocale } from "@/store/locale";
+import { listInventory, listRequests } from "@/lib/data";
 
 export default function HospitalPage() {
   const { t } = useLocale();
@@ -13,8 +14,8 @@ export default function HospitalPage() {
   const [requests, setRequests] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("/api/inventory").then((r) => r.json()).then((d) => setInventory(d.inventory));
-    fetch("/api/requests").then((r) => r.json()).then((d) => setRequests(d.requests));
+    listInventory().then(setInventory).catch(() => setInventory([]));
+    listRequests().then(setRequests).catch(() => setRequests([]));
   }, []);
 
   const heat = useMemo(() => {
