@@ -3,10 +3,16 @@ import { useState, Suspense, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
+import { ShieldCheck } from "lucide-react";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { Field, GoogleButton } from "@/components/auth/fields";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/providers/auth-provider";
+
+const ADMIN_DEMO = {
+  email: "thalamuxtech@gmail.com",
+  password: "Thalamuxtech@Admin321",
+};
 
 export default function SignInPage() {
   return (
@@ -92,7 +98,18 @@ function SignInInner() {
             {error}
           </p>
         )}
-        <div className="flex justify-end -mt-2">
+        <div className="flex items-center justify-between -mt-2">
+          <button
+            type="button"
+            onClick={() => {
+              setEmail(ADMIN_DEMO.email);
+              setPassword(ADMIN_DEMO.password);
+              toast.message("Admin credentials filled");
+            }}
+            className="inline-flex items-center gap-1.5 text-xs text-primary-700 hover:underline"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" /> Use admin credentials
+          </button>
           <Link href="/forgot-password" className="text-xs text-muted-fg hover:text-fg">
             Forgot password?
           </Link>

@@ -45,6 +45,7 @@ body {
     radial-gradient(at 50% 100%, rgba(220,38,38,0.06) 0px, transparent 50%);
 }
 .text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
 .text-gradient {
   background: linear-gradient(135deg, #B91C1C 0%, #EF4444 50%, #F59E0B 100%);
   -webkit-background-clip: text;

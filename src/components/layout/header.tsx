@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Menu, X, Globe, Heart } from "lucide-react";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Globe, Heart, ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/layout/user-menu";
 import { useLocale } from "@/store/locale";
@@ -11,8 +12,26 @@ import { cn } from "@/lib/utils";
 
 export function Header() {
   const { t, locale, setLocale } = useLocale();
+  const path = usePathname();
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    function onClick(e: MouseEvent) {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
+    }
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
 
   const nav = [
     { href: "/donate", label: t.nav.donate },
@@ -21,73 +40,115 @@ export function Header() {
     { href: "/about", label: t.nav.about },
   ];
 
+  const isActive = (href: string) => path === href || (href !== "/" && path?.startsWith(href));
+  const currentLang = LOCALES.find((l) => l.code === locale);
+
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 z-50 backdrop-blur-xl bg-bg/70 border-b border-border"
+      className={cn(
+        "sticky top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "backdrop-blur-xl bg-bg/85 border-b border-border shadow-[0_1px_0_0_hsl(var(--border)/0.5)]"
+          : "backdrop-blur-md bg-bg/60 border-b border-transparent"
+      )}
     >
       <div className="container flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center gap-2 font-display text-xl tracking-tight">
-          <span className="relative inline-flex h-8 w-8 items-center justify-center">
-            <span className="absolute inset-0 rounded-full bg-primary-700/20 animate-pulseRing" />
-            <Heart className="h-5 w-5 text-primary-700 fill-primary-700" />
+        {/* Logo */}
+        <Link href="/" className="group flex items-center gap-2.5 font-display text-xl tracking-tight">
+          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary-700 to-primary-900 shadow-glow">
+            <span className="absolute inset-0 rounded-xl bg-primary-700/30 animate-pulseRing" />
+            <Heart className="h-4 w-4 text-white fill-white relative" />
           </span>
-          LifeLine
+          <span className="flex flex-col leading-none">
+            <span className="font-semibold">LifeLine</span>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-muted-fg mt-0.5">E-Blood Bank</span>
+          </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
-          {nav.map((n) => (
-            <Link
-              key={n.href}
-              href={n.href}
-              className="px-4 py-2 text-sm font-medium text-muted-fg hover:text-fg rounded-full hover:bg-muted transition"
-            >
-              {n.label}
-            </Link>
-          ))}
+        {/* Center nav — segmented pill */}
+        <nav className="hidden md:flex items-center p-1 rounded-full border border-border bg-card/50 backdrop-blur-sm">
+          {nav.map((n) => {
+            const active = isActive(n.href);
+            return (
+              <Link
+                key={n.href}
+                href={n.href}
+                className={cn(
+                  "relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors",
+                  active ? "text-primary-700" : "text-muted-fg hover:text-fg"
+                )}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-primary-50 dark:bg-primary-900/30"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative">{n.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <Button variant="ghost" size="sm" onClick={() => setLangOpen(!langOpen)} aria-label="Language">
-              <Globe className="h-4 w-4" />
-              <span className="hidden sm:inline">{LOCALES.find((l) => l.code === locale)?.native}</span>
-            </Button>
-            {langOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute right-0 top-12 w-44 rounded-2xl border border-border bg-card shadow-soft p-1"
-              >
-                {LOCALES.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => {
-                      setLocale(l.code as Locale);
-                      setLangOpen(false);
-                    }}
-                    className={cn(
-                      "w-full text-left px-3 py-2 text-sm rounded-xl hover:bg-muted",
-                      locale === l.code && "bg-primary-50 text-primary-700 dark:bg-primary-900/30"
-                    )}
-                  >
-                    {l.native}
-                  </button>
-                ))}
-              </motion.div>
-            )}
+        {/* Right cluster */}
+        <div className="flex items-center gap-1.5">
+          <div className="relative" ref={langRef}>
+            <button
+              onClick={() => setLangOpen(!langOpen)}
+              aria-label="Language"
+              className="flex items-center gap-1.5 h-9 px-2.5 rounded-full hover:bg-muted text-sm transition-colors"
+            >
+              <Globe className="h-4 w-4 text-muted-fg" />
+              <span className="hidden sm:inline text-xs font-medium">{currentLang?.native}</span>
+              <ChevronDown className={cn("h-3 w-3 text-muted-fg transition-transform", langOpen && "rotate-180")} />
+            </button>
+            <AnimatePresence>
+              {langOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 top-12 w-48 rounded-2xl border border-border bg-card shadow-xl p-1.5"
+                >
+                  <div className="px-2.5 py-1.5 text-[10px] uppercase tracking-[0.2em] text-muted-fg">
+                    Language
+                  </div>
+                  {LOCALES.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLocale(l.code as Locale);
+                        setLangOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-2.5 py-2 text-sm rounded-xl hover:bg-muted flex items-center justify-between transition-colors",
+                        locale === l.code && "bg-primary-50 text-primary-700 dark:bg-primary-900/30"
+                      )}
+                    >
+                      <span>{l.native}</span>
+                      <span className="text-xs text-muted-fg uppercase">{l.code}</span>
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <Link href="/donate" className="hidden lg:inline-flex">
-            <Button size="sm">{t.hero.ctaPrimary}</Button>
+            <Button size="sm" className="shadow-glow">
+              <Heart className="h-3.5 w-3.5" /> {t.hero.ctaPrimary}
+            </Button>
           </Link>
 
           <UserMenu />
 
           <button
-            className="md:hidden p-2 rounded-full hover:bg-muted"
+            className="md:hidden p-2 rounded-full hover:bg-muted ml-0.5"
             onClick={() => setOpen(!open)}
             aria-label="Menu"
           >
@@ -96,29 +157,40 @@ export function Header() {
         </div>
       </div>
 
-      {open && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          className="md:hidden border-t border-border overflow-hidden"
-        >
-          <div className="container py-4 flex flex-col gap-1">
-            {nav.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                onClick={() => setOpen(false)}
-                className="px-4 py-3 rounded-xl hover:bg-muted text-fg"
-              >
-                {n.label}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="md:hidden border-t border-border overflow-hidden bg-bg/95 backdrop-blur-xl"
+          >
+            <div className="container py-4 flex flex-col gap-1">
+              {nav.map((n) => {
+                const active = isActive(n.href);
+                return (
+                  <Link
+                    key={n.href}
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "px-4 py-3 rounded-xl text-sm font-medium transition-colors",
+                      active ? "bg-primary-50 text-primary-700 dark:bg-primary-900/30" : "hover:bg-muted text-fg"
+                    )}
+                  >
+                    {n.label}
+                  </Link>
+                );
+              })}
+              <Link href="/donate" onClick={() => setOpen(false)} className="mt-2">
+                <Button className="w-full">
+                  <Heart className="h-4 w-4" /> {t.hero.ctaPrimary}
+                </Button>
               </Link>
-            ))}
-            <Link href="/donate" onClick={() => setOpen(false)} className="mt-2">
-              <Button className="w-full">{t.hero.ctaPrimary}</Button>
-            </Link>
-          </div>
-        </motion.div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

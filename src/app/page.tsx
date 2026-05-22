@@ -266,9 +266,11 @@ export default function HomePage() {
 
       {/* TESTIMONIALS */}
       <section className="py-20 relative">
-        <Reveal className="container mb-10">
+        <Reveal className="container mb-10 max-w-2xl">
           <Badge>{t.testimonials.badge}</Badge>
-          <h2 className="font-display text-4xl md:text-5xl tracking-tight mt-4">{t.testimonials.title}</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl tracking-tight mt-4 text-balance">
+            {t.testimonials.title}
+          </h2>
         </Reveal>
         <Marquee duration={50} className="py-2">
           {[
@@ -278,10 +280,10 @@ export default function HomePage() {
             { q: "The USSD menu works on my old Nokia. That's the magic.", a: "Hauwa M., Sokoto" },
             { q: "NBSA dashboard finally gives us the data we needed for policy.", a: "Director, NBSA Zone 3" },
           ].map((tt, i) => (
-            <div key={i} className="w-[360px] shrink-0">
-              <Card className="p-5">
+            <div key={i} className="w-[320px] sm:w-[360px] shrink-0 whitespace-normal">
+              <Card className="p-5 h-full">
                 <div className="flex gap-1 mb-3">{[...Array(5)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />)}</div>
-                <p className="text-sm leading-relaxed">&ldquo;{tt.q}&rdquo;</p>
+                <p className="text-sm leading-relaxed text-pretty">&ldquo;{tt.q}&rdquo;</p>
                 <div className="text-xs text-muted-fg mt-3">— {tt.a}</div>
               </Card>
             </div>

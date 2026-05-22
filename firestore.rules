@@ -56,5 +56,13 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+
+    // Newsletter signups. Public can subscribe; only admins can read/manage.
+    match /newsletter/{id} {
+      allow read: if isAdmin();
+      allow create: if request.resource.data.email is string
+                    && request.resource.data.email.size() < 200;
+      allow update, delete: if isAdmin();
+    }
   }
 }
