@@ -77,15 +77,23 @@ export function Header() {
                 key={n.href}
                 href={n.href}
                 className={cn(
-                  "relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors",
-                  active ? "text-primary-700" : "text-muted-fg hover:text-fg"
+                  "group relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 ease-out",
+                  active
+                    ? "text-white"
+                    : "text-muted-fg hover:text-white"
                 )}
               >
                 {active && (
                   <motion.span
                     layoutId="nav-pill"
-                    className="absolute inset-0 rounded-full bg-primary-50 dark:bg-primary-900/30"
+                    className="absolute inset-0 rounded-full bg-primary-700 shadow-glow"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                {!active && (
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 rounded-full bg-primary-700 scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200 ease-out"
                   />
                 )}
                 <span className="relative">{n.label}</span>
@@ -174,8 +182,10 @@ export function Header() {
                     href={n.href}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      "px-4 py-3 rounded-xl text-sm font-medium transition-colors",
-                      active ? "bg-primary-50 text-primary-700 dark:bg-primary-900/30" : "hover:bg-muted text-fg"
+                      "px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-200",
+                      active
+                        ? "bg-primary-700 text-white shadow-glow"
+                        : "text-fg hover:bg-primary-700 hover:text-white"
                     )}
                   >
                     {n.label}
