@@ -129,7 +129,7 @@ export default function HomePage() {
       </section>
 
       {/* IMPACT STRIP */}
-      <section className="container -mt-12 relative z-20">
+      <section className="container mt-6 md:mt-8 relative z-20">
         <Tilt max={4}>
           <Card className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border overflow-hidden">
             <Stat value={stats?.totals?.donors ?? 0} label={t.impact.donors} />
