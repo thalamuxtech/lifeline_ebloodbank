@@ -273,30 +273,3 @@ export async function getStats() {
   };
 }
 
-// ───────── agent ─────────
-// Rule-based reply, identical to the deleted /api/agent route.
-export async function agentReply(text: string, locale: "en" | "ha" | "yo" | "ig" | "pcm" = "en"): Promise<string> {
-  const lower = text.toLowerCase();
-  const greet: Record<string, string> = {
-    en: "Hi! ", ha: "Sannu! ", yo: "Bawo! ", ig: "Ndewo! ", pcm: "How far! ",
-  };
-  let reply = "";
-  if (/(donate|donor|funni|nye|bayar)/i.test(lower)) {
-    reply = greet[locale] +
-      "Great — head to /donate to register. Takes 60 seconds, phone-only. After that we'll only call when your blood type is needed nearby.";
-  } else if (/(request|need|find|choo|beere|nemo|find blood)/i.test(lower)) {
-    reply = "To request blood, open /request and submit the patient's blood group, hospital and urgency. We match donors within 8 km in under a minute.";
-  } else if (/(eligible|eligibility|can i|inwere|fit donate)/i.test(lower)) {
-    reply = "Most healthy adults 18–65, weighing 50 kg+, who haven't donated in the last 3 months are eligible. Try the eligibility quiz at /eligibility.";
-  } else if (/(hospital|inventory|stock|unit)/i.test(lower)) {
-    reply = "Hospitals can view live stock at /hospital — including ABO×Rh×expiry heat-map and request kanban.";
-  } else if (/(sms|ussd|call|phone|voice)/i.test(lower)) {
-    reply = "No internet? Text BLOOD to 5050, dial *565*5050#, or call 0800-LIFELINE. We speak English, Hausa, Yoruba, Igbo, and Pidgin.";
-  } else if (/(thanks|thank|na gode|e se|daalu)/i.test(lower)) {
-    reply = "Anytime. Every drop is a lifeline. ❤";
-  } else {
-    reply = greet[locale] + "I'm LifeLine's assistant. Ask me about donating, requesting blood, eligibility, or reaching us by SMS/call.";
-  }
-  await new Promise((r) => setTimeout(r, 200));
-  return reply;
-}
