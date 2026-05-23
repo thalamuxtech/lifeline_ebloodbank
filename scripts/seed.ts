@@ -195,7 +195,7 @@ async function main() {
           "Corporate Drive",
           "Community Drive",
         ]),
-        organiser: "Hale Youth Foundation",
+        organiser: "Haleyouth Foundation",
         hospital: rand(hospitals),
         city: rand(cities),
         scheduledAt: new Date(Date.now() + (i + 1) * 86400000 * 3).toISOString(),

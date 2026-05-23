@@ -110,7 +110,7 @@ export function Footer() {
           </Link>
           <p className="mt-4 text-sm text-muted-fg leading-relaxed max-w-sm">{t.footer.blurb}</p>
           <div className="mt-5 flex items-center gap-2 text-xs text-muted-fg">
-            <MapPin className="h-3.5 w-3.5" /> Built in Nigeria 🇳🇬 by Hale Youth Foundation
+            <MapPin className="h-3.5 w-3.5" /> Built in Nigeria 🇳🇬 by Haleyouth Foundation
           </div>
         </div>
 
@@ -183,7 +183,7 @@ export function Footer() {
       {/* Bottom bar with centered shield */}
       <div className="border-t border-border">
         <div className="container py-6 relative flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-fg">
-          <span>© {new Date().getFullYear()} Hale Youth Foundation. {t.footer.rights}</span>
+          <span>© {new Date().getFullYear()} Haleyouth Foundation. {t.footer.rights}</span>
 
           {/* Centered shield admin entry */}
           <Link

@@ -40,7 +40,7 @@ export function AuthShell({
             </span>
           </h1>
           <p className="mt-6 text-lg text-muted-fg max-w-md">
-            Join Nigeria&apos;s open E-blood bank. Track inventory, match donors in seconds, and save lives — built by Hale Youth Foundation.
+            Join Nigeria&apos;s open E-blood bank. Track inventory, match donors in seconds, and save lives — built by Haleyouth Foundation.
           </p>
           <div className="mt-10 grid grid-cols-3 gap-4 max-w-md">
             <Stat value="36+" label="Active donors" />

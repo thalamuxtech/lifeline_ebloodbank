@@ -12,8 +12,8 @@ const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-display", disp
 export const metadata: Metadata = {
   title: "LifeLine — Nigeria's E-Blood Bank",
   description:
-    "Find blood. Save lives. Multilingual, voice and SMS enabled E-Blood Bank built for Nigeria. By Hale Youth Foundation.",
-  keywords: ["blood bank", "Nigeria", "donor", "transfusion", "Hale Youth Foundation", "NBSA"],
+    "Find blood. Save lives. Multilingual, voice and SMS enabled E-Blood Bank built for Nigeria. By Haleyouth Foundation.",
+  keywords: ["blood bank", "Nigeria", "donor", "transfusion", "Haleyouth Foundation", "NBSA"],
   metadataBase: new URL("https://lifeline.ng"),
 };
 

@@ -143,7 +143,7 @@ const en = {
   about: {
     badge: "About LifeLine",
     title1: "Bridging donors and patients,", title2: "one drop at a time.",
-    body: "LifeLine is a Hale Youth Foundation initiative. We are building Nigeria's first inclusive, multilingual, voice-and-SMS enabled E-Blood Bank — aligned with the NBSA Act 2021, WHO blood safety standards, and ISBT-128 traceability.",
+    body: "LifeLine is a Haleyouth Foundation initiative. We are building Nigeria's first inclusive, multilingual, voice-and-SMS enabled E-Blood Bank — aligned with the NBSA Act 2021, WHO blood safety standards, and ISBT-128 traceability.",
     values: [
       { title: "100% voluntary", body: "We champion voluntary non-remunerated donation, the WHO gold standard." },
       { title: "Built for inclusion", body: "Web, SMS, USSD, WhatsApp, and a voice agent in five languages." },
@@ -163,7 +163,7 @@ const en = {
   },
   dock: { home: "Home", donate: "Donate", request: "Request", hospital: "Hospital", admin: "Admin" },
   footer: {
-    blurb: "A Hale Youth Foundation initiative bridging donors and patients across Nigeria.",
+    blurb: "A Haleyouth Foundation initiative bridging donors and patients across Nigeria.",
     product: "Product", reach: "Reach us anywhere", standards: "Standards",
     tollFree: "Toll-free", sms: "SMS", ussd: "USSD",
     rights: "Every drop, a lifeline.",
@@ -298,7 +298,7 @@ const ha: typeof en = {
   about: {
     badge: "Game da LifeLine",
     title1: "Hadawa masu bayarwa da masu bukata,", title2: "digo daya bayan daya.",
-    body: "LifeLine wani aiki ne na Hale Youth Foundation. Muna gina bankin jini na farko na Najeriya wanda ya hada da kowa, mai harsuna da yawa, mai murya da SMS — wanda ya yi daidai da NBSA Act 2021, ma'aunan WHO na lafiyar jini, da bibiyar ISBT-128.",
+    body: "LifeLine wani aiki ne na Haleyouth Foundation. Muna gina bankin jini na farko na Najeriya wanda ya hada da kowa, mai harsuna da yawa, mai murya da SMS — wanda ya yi daidai da NBSA Act 2021, ma'aunan WHO na lafiyar jini, da bibiyar ISBT-128.",
     values: [
       { title: "100% na son rai", body: "Muna goyon bayan bayarwa ta son rai ba tare da biya ba, ma'aunin zinare na WHO." },
       { title: "An gina don kowa", body: "Yanar gizo, SMS, USSD, WhatsApp, da mataimaki murya cikin harsuna biyar." },
@@ -318,7 +318,7 @@ const ha: typeof en = {
   },
   dock: { home: "Gida", donate: "Bayar", request: "Bukata", hospital: "Asibiti", admin: "Manaja" },
   footer: {
-    blurb: "Aikin Hale Youth Foundation wanda yake hada masu bayarwa da masu bukata a fadin Najeriya.",
+    blurb: "Aikin Haleyouth Foundation wanda yake hada masu bayarwa da masu bukata a fadin Najeriya.",
     product: "Sabis", reach: "Tuntube mu", standards: "Ma'aunai",
     tollFree: "Kira na kyauta", sms: "SMS", ussd: "USSD",
     rights: "Kowane digo, ceton rai.",
@@ -453,7 +453,7 @@ const yo: typeof en = {
   about: {
     badge: "Nípa LifeLine",
     title1: "Dídijọ àwọn olùfúnni àti aláìsàn,", title2: "ọ̀kan kọ̀ọ̀kan ní àkókò.",
-    body: "LifeLine jẹ́ iṣẹ́ Hale Youth Foundation. À ń kọ́ bánkì ẹ̀jẹ̀ àkọ́kọ́ ti Nàìjíríà tó kó gbogbo ènìyàn, oníèdè púpọ̀, pẹ̀lú ohùn àti SMS — ní ìbámu pẹ̀lú NBSA Act 2021, ìwọ̀n ààbò ẹ̀jẹ̀ WHO, àti ìtọpinpin ISBT-128.",
+    body: "LifeLine jẹ́ iṣẹ́ Haleyouth Foundation. À ń kọ́ bánkì ẹ̀jẹ̀ àkọ́kọ́ ti Nàìjíríà tó kó gbogbo ènìyàn, oníèdè púpọ̀, pẹ̀lú ohùn àti SMS — ní ìbámu pẹ̀lú NBSA Act 2021, ìwọ̀n ààbò ẹ̀jẹ̀ WHO, àti ìtọpinpin ISBT-128.",
     values: [
       { title: "100% tinúfúnni", body: "A ń ṣe àtìlẹ́yìn ìfúnni tinúfúnni láìsí owó, ìwọ̀n òfin WHO." },
       { title: "Tí a kọ́ fún gbogbo ènìyàn", body: "Wẹ́ẹ̀bù, SMS, USSD, WhatsApp, àti olùrànlọ́wọ́ ohùn ní èdè márùn-ún." },
@@ -473,7 +473,7 @@ const yo: typeof en = {
   },
   dock: { home: "Ilé", donate: "Fúnni", request: "Ìbéèrè", hospital: "Ilé-ìwòsàn", admin: "Alábòójútó" },
   footer: {
-    blurb: "Iṣẹ́ Hale Youth Foundation tó ń di àwọn olùfúnni àti aláìsàn pọ̀ jákèjádò Nàìjíríà.",
+    blurb: "Iṣẹ́ Haleyouth Foundation tó ń di àwọn olùfúnni àti aláìsàn pọ̀ jákèjádò Nàìjíríà.",
     product: "Ọjà", reach: "Bá wa sọ̀rọ̀", standards: "Ìwọ̀n",
     tollFree: "Ìpè ọ̀fẹ́", sms: "SMS", ussd: "USSD",
     rights: "Ẹ̀jẹ̀ kọ̀ọ̀kan, ìgbàlà ẹ̀mí.",
@@ -608,7 +608,7 @@ const ig: typeof en = {
   about: {
     badge: "Banyere LifeLine",
     title1: "Na-ejikọ ndị na-enye na ndị ọrịa,", title2: "otu mmiri ọbara n'oge.",
-    body: "LifeLine bụ ọrụ Hale Youth Foundation. Anyị na-ewu ebe nchekwa ọbara izizi Naịjirịa nke gụnyere onye ọ bụla, asụsụ dị iche iche, olu na SMS — kwekọrọ na NBSA Act 2021, ụkpụrụ nche ọbara WHO, na nsochi ISBT-128.",
+    body: "LifeLine bụ ọrụ Haleyouth Foundation. Anyị na-ewu ebe nchekwa ọbara izizi Naịjirịa nke gụnyere onye ọ bụla, asụsụ dị iche iche, olu na SMS — kwekọrọ na NBSA Act 2021, ụkpụrụ nche ọbara WHO, na nsochi ISBT-128.",
     values: [
       { title: "100% n'afọ ọma", body: "Anyị na-akwado onyinye n'afọ ọma n'enweghị ụgwọ, ọkọlọtọ ọla edo nke WHO." },
       { title: "Wuru maka onye ọ bụla", body: "Webụ, SMS, USSD, WhatsApp, na onye nnyemaka olu n'asụsụ ise." },
@@ -628,7 +628,7 @@ const ig: typeof en = {
   },
   dock: { home: "Ụlọ", donate: "Nye", request: "Chọọ", hospital: "Ụlọ ọgwụ", admin: "Nlekọta" },
   footer: {
-    blurb: "Ọrụ Hale Youth Foundation nke na-ejikọ ndị na-enye na ndị ọrịa na Naịjirịa dum.",
+    blurb: "Ọrụ Haleyouth Foundation nke na-ejikọ ndị na-enye na ndị ọrịa na Naịjirịa dum.",
     product: "Ngwaahịa", reach: "Kpọtụrụ anyị", standards: "Ụkpụrụ",
     tollFree: "Oku efu", sms: "SMS", ussd: "USSD",
     rights: "Mmiri ọbara ọ bụla, nzọpụta ndụ.",
@@ -763,7 +763,7 @@ const pcm: typeof en = {
   about: {
     badge: "About LifeLine",
     title1: "Connecting donors and patients,", title2: "one drop at a time.",
-    body: "LifeLine na Hale Youth Foundation initiative. We dey build Naija first inclusive, multilingual, voice-and-SMS E-Blood Bank — aligned with NBSA Act 2021, WHO blood safety standards, and ISBT-128 traceability.",
+    body: "LifeLine na Haleyouth Foundation initiative. We dey build Naija first inclusive, multilingual, voice-and-SMS E-Blood Bank — aligned with NBSA Act 2021, WHO blood safety standards, and ISBT-128 traceability.",
     values: [
       { title: "100% voluntary", body: "We dey champion voluntary donation, na WHO gold standard be that." },
       { title: "For everybody", body: "Web, SMS, USSD, WhatsApp, and voice agent for five languages." },
@@ -783,7 +783,7 @@ const pcm: typeof en = {
   },
   dock: { home: "Home", donate: "Donate", request: "Request", hospital: "Hospital", admin: "Admin" },
   footer: {
-    blurb: "Hale Youth Foundation initiative wey dey connect donors and patients across Naija.",
+    blurb: "Haleyouth Foundation initiative wey dey connect donors and patients across Naija.",
     product: "Product", reach: "Reach us anywhere", standards: "Standards",
     tollFree: "Toll-free", sms: "SMS", ussd: "USSD",
     rights: "Every drop dey save life.",

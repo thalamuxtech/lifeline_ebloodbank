@@ -2,7 +2,7 @@
 
 > Every drop, a lifeline.
 
-A multilingual, voice + SMS enabled E-blood bank built by **Hale Youth Foundation** to make blood donation discovery, matching, and inventory tracking effortless across Nigeria.
+A multilingual, voice + SMS enabled E-blood bank built by **Haleyouth Foundation** to make blood donation discovery, matching, and inventory tracking effortless across Nigeria.
 
 [![Deploy to Firebase Hosting](https://github.com/thalamuxtech/lifeline_ebloodbank/actions/workflows/firebase-hosting-deploy.yml/badge.svg)](https://github.com/thalamuxtech/lifeline_ebloodbank/actions/workflows/firebase-hosting-deploy.yml)
 
@@ -111,4 +111,4 @@ Required APIs (enable once per project):
 
 ## License
 
-Built by Hale Youth Foundation. All rights reserved.
+Built by Haleyouth Foundation. All rights reserved.

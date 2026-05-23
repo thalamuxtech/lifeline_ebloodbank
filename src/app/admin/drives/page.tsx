@@ -22,7 +22,7 @@ export default function AdminDrives() {
         resource="drives"
         rows={rows}
         onChange={refresh}
-        createTemplate={{ title: "", organiser: "Hale Youth Foundation", hospital: "LUTH", city: "Lagos", scheduledAt: new Date().toISOString(), capacity: 100 }}
+        createTemplate={{ title: "", organiser: "Haleyouth Foundation", hospital: "LUTH", city: "Lagos", scheduledAt: new Date().toISOString(), capacity: 100 }}
         columns={[
           { key: "id", label: "ID", editable: false },
           { key: "title", label: "Title", inputType: "text" },
