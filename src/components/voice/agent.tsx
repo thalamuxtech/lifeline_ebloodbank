@@ -13,7 +13,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useConversation } from "@elevenlabs/react";
+import { ConversationProvider, useConversation } from "@elevenlabs/react";
 import { cn } from "@/lib/utils";
 
 const AGENT_ID =
@@ -39,7 +39,13 @@ export function VoiceAgent() {
   return (
     <>
       <Launcher onClick={() => setOpen(true)} />
-      <AnimatePresence>{open && <Panel onClose={() => setOpen(false)} />}</AnimatePresence>
+      <AnimatePresence>
+        {open && (
+          <ConversationProvider>
+            <Panel onClose={() => setOpen(false)} />
+          </ConversationProvider>
+        )}
+      </AnimatePresence>
     </>
   );
 }
@@ -63,7 +69,6 @@ function Launcher({ onClick }: { onClick: () => void }) {
 function Panel({ onClose }: { onClose: () => void }) {
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [typed, setTyped] = useState("");
-  const [muted, setMuted] = useState(false);
   const [micError, setMicError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -71,23 +76,19 @@ function Panel({ onClose }: { onClose: () => void }) {
     onConnect: () => {
       setMicError(null);
     },
-    onDisconnect: () => {
-      // session ended — no-op (UI follows conversation.status)
-    },
-    onError: (err) => {
-      const e: unknown = err;
+    onError: (err: unknown) => {
       const message =
-        typeof e === "string"
-          ? e
-          : e instanceof Error
-            ? e.message
-            : typeof e === "object" && e !== null && "message" in e
-              ? String((e as { message: unknown }).message)
+        typeof err === "string"
+          ? err
+          : err instanceof Error
+            ? err.message
+            : typeof err === "object" && err !== null && "message" in err
+              ? String((err as { message: unknown }).message)
               : "Connection error";
       setMicError(message);
     },
     onMessage: (msg: { message: string; source: "user" | "ai" }) => {
-      // The SDK fires this for both user transcripts and agent responses.
+      if (!msg?.message) return;
       const role: ChatMsg["role"] = msg.source === "user" ? "user" : "agent";
       setMessages((prev) => [
         ...prev,
@@ -98,6 +99,7 @@ function Panel({ onClose }: { onClose: () => void }) {
 
   const status = conversation.status;
   const isSpeaking = conversation.isSpeaking;
+  const isMuted = conversation.isMuted;
   const isConnected = status === "connected";
   const isConnecting = status === "connecting";
 
@@ -142,13 +144,8 @@ function Panel({ onClose }: { onClose: () => void }) {
   }
 
   function toggleMute() {
-    const next = !muted;
-    setMuted(next);
     try {
-      const result = conversation.setVolume({ volume: next ? 0 : 1 }) as unknown;
-      if (result && typeof (result as Promise<unknown>).then === "function") {
-        (result as Promise<unknown>).catch(() => {});
-      }
+      conversation.setMuted(!isMuted);
     } catch {
       /* noop */
     }
@@ -198,10 +195,10 @@ function Panel({ onClose }: { onClose: () => void }) {
                 {isConnected && (
                   <button
                     onClick={toggleMute}
-                    aria-label={muted ? "Unmute" : "Mute"}
+                    aria-label={isMuted ? "Unmute" : "Mute"}
                     className="p-1.5 rounded-full hover:bg-white/10"
                   >
-                    {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                    {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                   </button>
                 )}
                 <button

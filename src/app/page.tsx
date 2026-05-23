@@ -53,7 +53,7 @@ export default function HomePage() {
         <GridBackdrop />
         <AnimatedBlobs />
 
-        <div className="container pt-12 md:pt-20 pb-24 md:pb-32 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container pt-12 md:pt-20 pb-12 md:pb-16 grid lg:grid-cols-2 gap-12 items-center">
           <motion.div style={reduce ? undefined : { y, opacity }} className="relative z-10">
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <Badge tone="primary" className="mb-6 backdrop-blur-md">
@@ -117,7 +117,7 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        <div className="relative pb-8">
+        <div className="relative pb-4">
           <Marquee duration={36}>
             {["WHO Aligned", "NBSA Act 2021", "ISBT-128 Traceability", "NDPR Compliant", "Voluntary Donors", "Voice + SMS + USSD", "WHO Aligned", "NBSA Act 2021", "ISBT-128 Traceability"].map((s, i) => (
               <span key={i} className="text-xs uppercase tracking-[0.25em] text-muted-fg flex items-center gap-3">
