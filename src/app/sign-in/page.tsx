@@ -32,17 +32,32 @@ function SignInInner() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // When the admin signs in, default the landing page to /admin instead of /.
+  const landingFor = (signedInEmail: string) =>
+    next !== "/"
+      ? next
+      : signedInEmail.toLowerCase() === ADMIN_DEMO.email.toLowerCase()
+        ? "/admin"
+        : "/";
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
     try {
-      await signInEmail(email.trim(), password);
+      const trimmed = email.trim();
+      await signInEmail(trimmed, password);
       toast.success("Welcome back");
-      router.push(next);
+      router.push(landingFor(trimmed));
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Sign in failed";
-      setError(msg.replace("Firebase: ", ""));
+      const cleaned = msg.replace("Firebase: ", "");
+      // Translate the cryptic network error into something actionable.
+      setError(
+        /network-request-failed/i.test(cleaned)
+          ? "Couldn't reach Firebase. A browser extension, VPN, or network proxy may be blocking it. Try a different network or disable adblockers for this site."
+          : cleaned
+      );
     } finally {
       setLoading(false);
     }
@@ -57,7 +72,12 @@ function SignInInner() {
       router.push(next);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Google sign-in failed";
-      setError(msg.replace("Firebase: ", ""));
+      const cleaned = msg.replace("Firebase: ", "");
+      setError(
+        /network-request-failed/i.test(cleaned)
+          ? "Couldn't reach Firebase. A browser extension, VPN, or network proxy may be blocking it. Try a different network or disable adblockers for this site."
+          : cleaned
+      );
     } finally {
       setLoading(false);
     }
